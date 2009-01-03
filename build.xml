@@ -1,0 +1,74 @@
+<!--              ANT build file for JAM              -->
+
+<project name="JAM" default="dist" basedir=".">
+    <description>
+        Build file for JAM
+    </description>
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="build-mac-only" location="build-mac-only"/>
+
+    <property name="lib" location="lib"/>
+    <property name="images" location="images"/>
+    <property name="dist" location="dist"/>
+
+    <property environment="env"/>
+
+    <target name="init">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${build}"/>
+        <mkdir dir="${build-mac-only}"/>
+        <mkdir dir="${dist}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <!-- Compile the java code from ${jamsrc} into ${build} -->
+
+        <condition property="isMac">
+            <os family="mac"/>
+        </condition>
+        <javac source="1.5" srcdir="${src}" destdir="${build}">
+            <include name="jam/**/*"/>
+            <exclude name="jam/**/maconly/*"/>
+            <!--<exclude name="org/**/maconly/*" unless = "isMac"/>-->
+        </javac>
+    </target>
+
+    <target name="compile-mac-only" depends="init">
+        <!-- Compile the java code from ${jamsrc} into ${build} -->
+        <condition property="isMac">
+            <os family="mac"/>
+        </condition>
+        <javac source="1.5" srcdir="${src}" destdir="${build-mac-only}">
+            <include name="jam/**/maconly/*"/>
+        </javac>
+    </target>
+
+    <target name="dist-mac-only" depends="compile-mac-only" description="generate the -mac-only distribution">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}"/>
+
+        <!-- create the mac-only jar file -->
+        <jar jarfile="${lib}/jam-mac-only.jar">
+            <fileset dir="${build-mac-only}" includes="**/mac*/**/*.class,*.properties"/>
+        </jar>
+    </target>
+
+
+    <target name="dist" depends="compile" description="generate the distribution">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}"/>
+        <delete file="${dist}/jam.jar"/>
+        <!-- Put everything in ${build} into the jam.jar file -->
+        <jar jarfile="${dist}/jam.jar">
+            <fileset dir="${build}" includes="**/*.class,**/*.properties,**/*.png"/>
+            <fileset dir="${images}" includes="images/**/*.png"/>
+            <zipgroupfileset dir="${lib}" includes="**/*.jar"/>
+            <zipgroupfileset dir="${lib}" includes="jam-mac-only.jar"/>
+        </jar>
+    </target>
+
+</project>
