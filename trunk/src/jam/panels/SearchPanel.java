@@ -203,7 +203,11 @@ public class SearchPanel extends JPanel {
 		});
 	}
 
-	private void checkSearchTextEmpty() {
+    public JTextField getSearchText() {
+        return searchText;
+    }
+
+    private void checkSearchTextEmpty() {
 		String text = searchText.getText().trim();
 		if (text.length() == 0) {
 			searchTextEmpty = true;
