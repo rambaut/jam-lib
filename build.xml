@@ -34,6 +34,9 @@
             <exclude name="jam/**/maconly/*"/>
             <!--<exclude name="org/**/maconly/*" unless = "isMac"/>-->
         </javac>
+        <copy todir="${build}" verbose="true">
+            <fileset dir="${src}" includes="jam/**/*.png,jam/**/*.gif"/>
+        </copy>
     </target>
 
     <target name="compile-mac-only" depends="init">
