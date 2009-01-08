@@ -146,7 +146,9 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
 
         JPanel titlePanel = new JPanel(new BorderLayout(6, 0));
         titlePanel.setOpaque(false);
-        titlePanel.add(controller.getTitleComponent(), BorderLayout.CENTER);
+        JComponent comp = controller.getTitleComponent();
+        comp.setFocusable(false);
+        titlePanel.add(comp, BorderLayout.CENTER);
 
         JPanel controllerPanel = controller.getPanel();
         controllerPanel.setOpaque(false);
