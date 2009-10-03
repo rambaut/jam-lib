@@ -26,6 +26,15 @@ public class Utils {
 		return MAC_OS_X_VERSION;
 	}
 
+    public static int getMacOSXMajorVersionNumber() {
+        String[] bits = Utils.getMacOSXVersion().split("\\.");
+        if (bits.length >= 2 && bits[0].equals("10")) {
+            return Integer.parseInt(bits[1]);
+        }
+        return -1;
+    }
+
+
 	public static void macOSXRegistration(jam.framework.Application application) {
         if (MAC_OS_X) {
 
