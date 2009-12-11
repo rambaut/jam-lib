@@ -27,19 +27,25 @@ public class OptionsPanel extends JPanel {
 	protected GridBagLayout gridbag = new GridBagLayout();
 	private final int hGap;
 	private final int vGap;
+    private final int alignment;
 
 	public OptionsPanel() {
-		this(4, 4);
+		this(4, 4, SwingConstants.LEFT);
 	}
 
 	public OptionsPanel(int hGap, int vGap) {
-		this.hGap = hGap;
-		this.vGap = vGap;
-
-		setBorder(BorderFactory.createEmptyBorder(3,6,6,6));
-		setLayout(gridbag);
-		setOpaque(false);
+        this(hGap, vGap, SwingConstants.LEFT);
 	}
+
+    public OptionsPanel(int hGap, int vGap, int alignment) {
+        this.hGap = hGap;
+        this.vGap = vGap;
+        this.alignment = alignment;
+
+        setBorder(BorderFactory.createEmptyBorder(3,6,6,6));
+        setLayout(gridbag);
+        setOpaque(false);
+    }
 
 	public void addLabel(String text) {
 		JLabel label = new JLabel(text);
@@ -141,7 +147,7 @@ public class OptionsPanel extends JPanel {
 		adjustComponent(comp2);
 
 		GridBagConstraints c = new GridBagConstraints();
-		c.weightx = 0.0;
+		c.weightx = (alignment != SwingConstants.LEFT ? 1.0 : 0.0);
         c.weighty = 0.0;
 		c.fill = fill1 ? GridBagConstraints.HORIZONTAL : GridBagConstraints.NONE;
 
@@ -151,7 +157,7 @@ public class OptionsPanel extends JPanel {
 		gridbag.setConstraints(comp1, c);
 		add(comp1);
 
-		c.weightx = 1.0;
+		c.weightx = (alignment != SwingConstants.RIGHT ? 1.0 : 0.0);
 		c.insets = new Insets(vGap / 2, hGap / 2, vGap / 2, 0);
 		c.fill = fill2 ? GridBagConstraints.HORIZONTAL : GridBagConstraints.NONE;
 		c.gridwidth = GridBagConstraints.REMAINDER;
