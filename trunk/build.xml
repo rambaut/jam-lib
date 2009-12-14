@@ -29,7 +29,7 @@
         <condition property="isMac">
             <os family="mac"/>
         </condition>
-        <javac source="1.5" srcdir="${src}" destdir="${build}">
+        <javac source="1.5" target="1.5" srcdir="${src}" destdir="${build}">
             <include name="jam/**/*"/>
             <exclude name="jam/**/maconly/*"/>
             <!--<exclude name="org/**/maconly/*" unless = "isMac"/>-->
@@ -44,7 +44,7 @@
         <condition property="isMac">
             <os family="mac"/>
         </condition>
-        <javac source="1.5" srcdir="${src}" destdir="${build-mac-only}">
+        <javac source="1.5" target="1.5" srcdir="${src}" destdir="${build-mac-only}">
             <include name="jam/**/maconly/*"/>
         </javac>
     </target>
