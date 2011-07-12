@@ -21,9 +21,6 @@ import jam.mac.MacWindowMenuFactory;
 public class ConsoleMenuBarFactory extends DefaultMenuBarFactory {
 
 	public ConsoleMenuBarFactory() {
-        // org.virion stuff shouldn't be called from here - it's a separate project!
-
-		// no its not. This class is part of JAM.
         if (jam.mac.Utils.isMacOSX()) {
         //if (System.getProperty("mrj.version") != null) {
             registerMenuFactory(new MacFileMenuFactory(false));
