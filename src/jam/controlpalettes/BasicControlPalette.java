@@ -144,78 +144,81 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
 
     private void setupController(Controller controller) {
 
-        JPanel titlePanel = new JPanel(new BorderLayout(6, 0));
-        titlePanel.setOpaque(false);
-        JComponent comp = controller.getTitleComponent();
-        comp.setFocusable(false);
-        titlePanel.add(comp, BorderLayout.CENTER);
+        // if there is no title component then this is an invisible controller
+        if (controller.getTitleComponent() != null) {
+            JPanel titlePanel = new JPanel(new BorderLayout(6, 0));
+            titlePanel.setOpaque(false);
+            JComponent comp = controller.getTitleComponent();
+            comp.setFocusable(false);
+            titlePanel.add(comp, BorderLayout.CENTER);
 
-        JPanel controllerPanel = controller.getPanel();
-        controllerPanel.setOpaque(false);
+            JPanel controllerPanel = controller.getPanel();
+            controllerPanel.setOpaque(false);
 
-		// This tells Mac L&Fs to use a small components (ignored otherwise)
-        controller.getTitleComponent().setFont(UIManager.getFont("SmallSystemFont"));
-        controller.getTitleComponent().setOpaque(false);
+            // This tells Mac L&Fs to use a small components (ignored otherwise)
+            controller.getTitleComponent().setFont(UIManager.getFont("SmallSystemFont"));
+            controller.getTitleComponent().setOpaque(false);
 
-        PinnedButton pinnedButton = new PinnedButton();
+            PinnedButton pinnedButton = new PinnedButton();
 
-        pinnedButton.setSelected(controller.isInitiallyVisible());
-        titlePanel.add(pinnedButton, BorderLayout.EAST);
+            pinnedButton.setSelected(controller.isInitiallyVisible());
+            titlePanel.add(pinnedButton, BorderLayout.EAST);
 
-        final DisclosurePanel panel = new DisclosurePanel(
-                titlePanel, preferredTitleHeight, controllerPanel, controller.isInitiallyVisible(), openingSpeed);
+            final DisclosurePanel panel = new DisclosurePanel(
+                    titlePanel, preferredTitleHeight, controllerPanel, controller.isInitiallyVisible(), openingSpeed);
 
-        if (displayMode == DisplayMode.ONLY_ONE_OPEN) {
-            panel.addDisclosureListener(new DisclosureListener() {
-                public void opening(Component component) {
-                }
+            if (displayMode == DisplayMode.ONLY_ONE_OPEN) {
+                panel.addDisclosureListener(new DisclosureListener() {
+                    public void opening(Component component) {
+                    }
 
-                public void opened(Component component) {
-                    int newlyOpened = disclosurePanels.indexOf(component);
-                    ControlsState controlsState = controlsStates.get(newlyOpened);
+                    public void opened(Component component) {
+                        int newlyOpened = disclosurePanels.indexOf(component);
+                        ControlsState controlsState = controlsStates.get(newlyOpened);
 
-                    if (currentlyOpen >= 0) {
-                        DisclosurePanel currentPanel = disclosurePanels.get(currentlyOpen);
+                        if (currentlyOpen >= 0) {
+                            DisclosurePanel currentPanel = disclosurePanels.get(currentlyOpen);
 
-                        ControlsState currentControls = controlsStates.get(currentlyOpen);
-                        if (!currentControls.isPinned()) {
-                            currentPanel.setOpen(false);
-                            currentControls.setVisible(false);
+                            ControlsState currentControls = controlsStates.get(currentlyOpen);
+                            if (!currentControls.isPinned()) {
+                                currentPanel.setOpen(false);
+                                currentControls.setVisible(false);
+                            }
+                        }
+                        currentlyOpen = newlyOpened;
+                        controlsState.setVisible(true);
+                    }
+
+                    public void closing(Component component) {
+                    }
+
+                    public void closed(Component component) {
+                        int newlyClosed = disclosurePanels.indexOf(component);
+                        ControlsState controlsState = controlsStates.get(newlyClosed);
+                        controlsState.setVisible(false);
+
+                        if (newlyClosed == currentlyOpen) {
+                            currentlyOpen = -1;
                         }
                     }
-                    currentlyOpen = newlyOpened;
-                    controlsState.setVisible(true);
-                }
+                });
+            }
 
-                public void closing(Component component) {
-                }
+            final ControlsState controlsState = new ControlsState(
+                    controller.isInitiallyVisible(),
+                    pinnedButton.isSelected());
 
-                public void closed(Component component) {
-                    int newlyClosed = disclosurePanels.indexOf(component);
-                    ControlsState controlsState = controlsStates.get(newlyClosed);
-                    controlsState.setVisible(false);
-
-                    if (newlyClosed == currentlyOpen) {
-                        currentlyOpen = -1;
-                    }
+            pinnedButton.addItemListener(new ItemListener() {
+                public void itemStateChanged(ItemEvent itemEvent) {
+                    controlsState.setPinned(itemEvent.getStateChange() == ItemEvent.SELECTED);
                 }
             });
+            disclosurePanels.add(panel);
+            controlsStates.add(controlsState);
+
+            panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            add(panel);
         }
-
-        final ControlsState controlsState = new ControlsState(
-                controller.isInitiallyVisible(),
-                pinnedButton.isSelected());
-
-        pinnedButton.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent itemEvent) {
-                controlsState.setPinned(itemEvent.getStateChange() == ItemEvent.SELECTED);
-            }
-        });
-        disclosurePanels.add(panel);
-        controlsStates.add(controlsState);
-
-        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        add(panel);
     }
 
     private int preferredWidth;
