@@ -9,6 +9,7 @@
 
 package jam.controlpalettes;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,16 @@ import java.util.List;
  */
 public abstract class AbstractController implements Controller {
 	protected static final String IS_SHOWN = "isShown";
+
+    protected void addComponent(JComponent component) {
+        componentList.add(component);
+    }
+
+    protected void enableComponents(boolean isSelected) {
+        for (JComponent component : componentList) {
+            component.setEnabled(isSelected);
+        }
+    }
 
     /**
      * Add a ControllerListener to this controllers list of listeners
@@ -46,5 +57,6 @@ public abstract class AbstractController implements Controller {
         }
     }
 
+    List<JComponent> componentList = new ArrayList<JComponent>();
     private final List<ControllerListener> listeners = new ArrayList<ControllerListener>();
 }
