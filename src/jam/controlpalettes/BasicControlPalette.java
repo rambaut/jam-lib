@@ -54,7 +54,15 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
 
 
     public Dimension getPreferredSize() {
-        return new Dimension(preferredWidth, super.getPreferredSize().height);
+        return new Dimension(preferredWidth, super.getHeight());
+    }
+
+    public Dimension getMaximumSize() {
+        return new Dimension(preferredWidth, super.getHeight());
+    }
+
+    public Dimension getMinimumSize() {
+        return new Dimension(preferredWidth, super.getHeight());
     }
 
     public JPanel getPanel() {
@@ -112,7 +120,7 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
 
         for (Controller controller : controllers) {
             setupController(controller);
-            //add(Box.createVerticalGlue());
+//            add(Box.createVerticalGlue());
         }
         add(Box.createRigidArea(new Dimension(0, Integer.MAX_VALUE)));
     }
@@ -122,6 +130,7 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
             panel.invalidate();
         }
         validate();
+        revalidate();
     }
 
     public void initialize() {
@@ -187,6 +196,7 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
                         }
                         currentlyOpen = newlyOpened;
                         controlsState.setVisible(true);
+                        BasicControlPalette.this.revalidate();
                     }
 
                     public void closing(Component component) {
@@ -200,6 +210,7 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
                         if (newlyClosed == currentlyOpen) {
                             currentlyOpen = -1;
                         }
+                        BasicControlPalette.this.revalidate();
                     }
                 });
             }
