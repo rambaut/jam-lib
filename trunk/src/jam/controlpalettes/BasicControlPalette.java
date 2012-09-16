@@ -47,22 +47,22 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
         this.preferredWidth = preferredWidth;
         this.displayMode = displayMode;
         this.openingSpeed = openingSpeed;
-        BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
-        setLayout(layout);
+//        BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+        setLayout(new GridBagLayout());
         setOpaque(true);
     }
 
 
     public Dimension getPreferredSize() {
-        return new Dimension(preferredWidth, super.getHeight());
+        return new Dimension(preferredWidth, super.getPreferredSize().height);
     }
 
     public Dimension getMaximumSize() {
-        return new Dimension(preferredWidth, super.getHeight());
+        return new Dimension(preferredWidth, super.getMaximumSize().height);
     }
 
     public Dimension getMinimumSize() {
-        return new Dimension(preferredWidth, super.getHeight());
+        return new Dimension(preferredWidth, super.getMaximumSize().height);
     }
 
     public JPanel getPanel() {
@@ -118,11 +118,20 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
         disclosurePanels.clear();
         controlsStates.clear();
 
+        int i = 0;
         for (Controller controller : controllers) {
-            setupController(controller);
-//            add(Box.createVerticalGlue());
+            setupController(i, controller);
+            i++;
         }
-        add(Box.createRigidArea(new Dimension(0, Integer.MAX_VALUE)));
+
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.weightx = 1.0;
+        gc.weighty = 1.0;
+        gc.gridx = 0;
+        gc.gridy = i;
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(new JSeparator(), gc);
     }
 
     public void layoutControls() {
@@ -151,7 +160,7 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
         }
     }
 
-    private void setupController(Controller controller) {
+    private void setupController(int index, Controller controller) {
 
         // if there is no title component then this is an invisible controller
         if (controller.getTitleComponent() != null) {
@@ -196,7 +205,9 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
                         }
                         currentlyOpen = newlyOpened;
                         controlsState.setVisible(true);
+                        BasicControlPalette.this.invalidate();
                         BasicControlPalette.this.revalidate();
+                        invalidate();
                     }
 
                     public void closing(Component component) {
@@ -210,7 +221,9 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
                         if (newlyClosed == currentlyOpen) {
                             currentlyOpen = -1;
                         }
+                        BasicControlPalette.this.invalidate();
                         BasicControlPalette.this.revalidate();
+                        invalidate();
                     }
                 });
             }
@@ -227,8 +240,16 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
             disclosurePanels.add(panel);
             controlsStates.add(controlsState);
 
-            panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            add(panel);
+//            panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+//            add(panel);
+            GridBagConstraints gc = new GridBagConstraints();
+            gc.weightx = 1.0;
+            gc.weighty = 0.0;
+            gc.gridx = 0;
+            gc.gridy = index;
+            gc.fill = GridBagConstraints.HORIZONTAL;
+            gc.anchor = GridBagConstraints.FIRST_LINE_START;
+            add(panel, gc);
         }
     }
 
