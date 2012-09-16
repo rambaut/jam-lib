@@ -160,6 +160,12 @@ public class BasicControlPalette extends JPanel implements ControlPalette {
         }
     }
 
+    @Override
+    public void setPreferredWidth(int preferredWidth) {
+        this.preferredWidth = preferredWidth;
+        invalidate();
+    }
+
     private void setupController(int index, Controller controller) {
 
         // if there is no title component then this is an invisible controller
