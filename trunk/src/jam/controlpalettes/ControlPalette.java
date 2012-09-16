@@ -71,4 +71,10 @@ public interface ControlPalette {
      * @param settings
      */
     void setSettings(Map<String,Object> settings);
+
+    /**
+     * Set the preferred width of the control panel
+     * @param preferredWidth
+     */
+    void setPreferredWidth(int preferredWidth);
 }
