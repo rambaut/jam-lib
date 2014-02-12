@@ -138,9 +138,9 @@ public class SlideOpenPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 
 			int delta = (int)Math.ceil(((double)(target - topPanel.getHeight())) / 10.0);
-			if (delta != 0) {
+			if (delta > 0) {
 				Dimension size = topPanel.getPreferredSize();
-				size.height += delta;
+				size.height = Math.min(size.height + delta, target);
 				topPanel.setPreferredSize(size);
 				topPanel.revalidate();
 				revalidate();
