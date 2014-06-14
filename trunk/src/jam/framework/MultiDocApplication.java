@@ -185,6 +185,7 @@ public class MultiDocApplication extends Application {
 
 	private void setupFramelessMenuBar() {
 		if (Utils.isMacOSX() &&
+                System.getProperty("apple.laf.useScreenMenuBar") != null &&
 				System.getProperty("apple.laf.useScreenMenuBar").equalsIgnoreCase("true")) {
 			if (invisibleFrame == null) {
 				// We use reflection here because the setUndecorated() method
