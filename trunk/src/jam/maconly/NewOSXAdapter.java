@@ -12,8 +12,10 @@
 package jam.maconly;
 
 import com.apple.eawt.*;
-import jam.framework.DocumentFrame;
+import com.apple.eawt.Application;
+import jam.framework.*;
 
+import javax.swing.*;
 import java.io.File;
 
 public class NewOSXAdapter implements
@@ -52,6 +54,14 @@ public class NewOSXAdapter implements
         theApplication.setPreferencesHandler(theAdapter);
         theApplication.setPrintFileHandler(theAdapter);
         theApplication.setQuitHandler(theAdapter);
+
+        // Create a default menu bar that is shown when all windows are closed
+        JMenuBar defaultMenuBar = new JMenuBar();
+        if(jam.framework.Application.getMenuBarFactory() != null) {
+            jam.framework.Application.getMenuBarFactory().populateMenuBar(defaultMenuBar, null);
+            theApplication.setDefaultMenuBar(defaultMenuBar);
+        }
+
     }
 
     public void handleAbout(AppEvent.AboutEvent aboutEvent) {

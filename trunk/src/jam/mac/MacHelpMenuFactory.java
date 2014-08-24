@@ -33,13 +33,13 @@ public class MacHelpMenuFactory implements MenuFactory {
 
 		Application application = Application.getApplication();
 
-		if (frame.getHelpAction() != null) {
+        if (frame != null && frame.getHelpAction() != null) {
 			item = new JMenuItem(frame.getHelpAction());
 			item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, MenuBarFactory.MENU_MASK));
 			menu.add(item);
 
 			menu.addSeparator();
-		}
+        }
 
 		if (application.getHelpAction() != null) {
 			item = new JMenuItem(application.getHelpAction());

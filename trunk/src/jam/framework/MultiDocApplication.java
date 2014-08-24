@@ -14,6 +14,7 @@
 package jam.framework;
 
 import jam.mac.Utils;
+import jam.maconly.OSXAdapter;
 
 import javax.swing.*;
 import java.io.File;
@@ -51,7 +52,8 @@ public class MultiDocApplication extends Application {
 	}
 
 	public final void initialize() {
-		setupFramelessMenuBar();
+        // The frameless default menubar is now handled by the OSXAdapter
+		// setupFramelessMenuBar();
 
         if (jam.mac.Utils.isMacOSX()) {
             // If this is a Mac application then register it at this point.
@@ -183,11 +185,16 @@ public class MultiDocApplication extends Application {
 		upperDocumentFrame = documentFrame;
 	}
 
+    /**
+     * Create an invisible dummy frame to host the default menu bar expected by the Mac OS X application
+     * This is now done in the OSXAdapter so this method is deprecated.
+     */
+    @Deprecated
 	private void setupFramelessMenuBar() {
 		if (Utils.isMacOSX() &&
                 System.getProperty("apple.laf.useScreenMenuBar") != null &&
 				System.getProperty("apple.laf.useScreenMenuBar").equalsIgnoreCase("true")) {
-			if (invisibleFrame == null) {
+            if (invisibleFrame == null) {
 				// We use reflection here because the setUndecorated() method
 				// only exists in Java 1.4 and up
 				invisibleFrame = new AbstractFrame() {
