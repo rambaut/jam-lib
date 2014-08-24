@@ -41,7 +41,7 @@ public class Utils {
             Class osxAdapter = null;
 
             try {
-                osxAdapter = Class.forName("jam.maconly.OSXAdapter");
+                osxAdapter = Class.forName("jam.maconly.NewOSXAdapter");
             } catch (Exception e) {
                 System.err.println("This version of Mac OS X does not support the Apple EAWT.");
             }
@@ -60,12 +60,12 @@ public class Utils {
                     // This is slightly gross.  to reflectively access methods with boolean args,
                     // use "boolean.class", then pass a Boolean object in as the arg, which apparently
                     // gets converted for you by the reflection system.
-                    defArgs[0] = boolean.class;
-                    Method prefsEnableMethod = osxAdapter.getDeclaredMethod("enablePrefs", defArgs);
-                    if (prefsEnableMethod != null) {
-                        Object args[] = {Boolean.TRUE};
-                        prefsEnableMethod.invoke(osxAdapter, args);
-                    }
+//                    defArgs[0] = boolean.class;
+//                    Method prefsEnableMethod = osxAdapter.getDeclaredMethod("enablePrefs", defArgs);
+//                    if (prefsEnableMethod != null) {
+//                        Object args[] = {Boolean.TRUE};
+//                        prefsEnableMethod.invoke(osxAdapter, args);
+//                    }
                 }
 
             } catch (Exception e) {
