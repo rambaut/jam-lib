@@ -51,6 +51,12 @@ public class MultiDocApplication extends Application {
 		super(menuBarFactory, nameString, aboutString, icon, websiteURLString, helpURLString);
 	}
 
+    public MultiDocApplication(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Icon icon,
+                               String websiteURLString, String helpURLString) {
+
+        super(menuBarFactory, nameString, titleString, aboutString, icon, websiteURLString, helpURLString);
+    }
+
 	public final void initialize() {
         // The frameless default menubar is now handled by the OSXAdapter
 		// setupFramelessMenuBar();

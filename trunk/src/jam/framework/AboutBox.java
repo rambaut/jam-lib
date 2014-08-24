@@ -50,16 +50,17 @@ public class AboutBox extends AbstractFrame {
         contentsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         contentsPanel.setBackground(Color.white);
 
-        JLabel iconLabel = new JLabel(icon, JLabel.CENTER);
+//        JLabel iconLabel = new JLabel(icon, JLabel.CENTER);
         JLabel titleLabel = new JLabel(title, JLabel.CENTER);
 
         Font font = titleLabel.getFont();
-        titleLabel.setFont(font.deriveFont(16.0f).deriveFont(Font.BOLD));
+        titleLabel.setFont(font.deriveFont(32.0f).deriveFont(Font.PLAIN));
+        titleLabel.setIcon(icon);
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(5,5,5,5);
-        contentsPanel.add(iconLabel, c);
+//        contentsPanel.add(iconLabel, c);
         contentsPanel.add(titleLabel, c);
 
         font = font.deriveFont(11.0f);
