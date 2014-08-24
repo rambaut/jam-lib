@@ -82,6 +82,10 @@ public abstract class Application {
         this(menuBarFactory, nameString, nameString, aboutString, icon, null, null);
     }
 
+    public Application(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Icon icon) {
+        this(menuBarFactory, nameString, titleString, aboutString, icon, null, null);
+    }
+
     public Application(MenuBarFactory menuBarFactory, String nameString, String aboutString, Icon icon,
                        String websiteURLString, String helpURLString) {
         this(menuBarFactory, nameString, nameString, aboutString, icon, websiteURLString, helpURLString);
