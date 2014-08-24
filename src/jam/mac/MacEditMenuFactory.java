@@ -35,6 +35,7 @@ public class MacEditMenuFactory implements MenuFactory {
 
         menu.setMnemonic('E');
 
+        if (frame != null) {
 		item = new JMenuItem(frame.getCutAction());
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, MenuBarFactory.MENU_MASK));
 		menu.add(item);
@@ -59,7 +60,38 @@ public class MacEditMenuFactory implements MenuFactory {
 		item = new JMenuItem(frame.getFindAction());
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, MenuBarFactory.MENU_MASK));
 		menu.add(item);
+        } else {
+            item = new JMenuItem("Cut");
+            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, MenuBarFactory.MENU_MASK));
+            item.setEnabled(false);
+            menu.add(item);
 
+            item = new JMenuItem("Copy");
+            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, MenuBarFactory.MENU_MASK));
+            item.setEnabled(false);
+            menu.add(item);
+
+            item = new JMenuItem("Paste");
+            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, MenuBarFactory.MENU_MASK));
+            item.setEnabled(false);
+            menu.add(item);
+
+            item = new JMenuItem("Delete");
+            item.setEnabled(false);
+            menu.add(item);
+
+            item = new JMenuItem("Select All");
+            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, MenuBarFactory.MENU_MASK));
+            item.setEnabled(false);
+            menu.add(item);
+
+            menu.addSeparator();
+
+            item = new JMenuItem("Find...");
+            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, MenuBarFactory.MENU_MASK));
+            item.setEnabled(false);
+            menu.add(item);
+        }
 	}
 
 	public int getPreferredAlignment() {

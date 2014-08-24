@@ -48,6 +48,7 @@ public class Utils {
 
             try {
                 if (osxAdapter != null) {
+                    // Invoke this by reflection to avoid linking errors on other platforms...
 
                     Class[] defArgs = {jam.framework.Application.class};
                     Method registerMethod = osxAdapter.getDeclaredMethod("registerMacOSXApplication", defArgs);

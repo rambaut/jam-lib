@@ -33,12 +33,23 @@ public class MacWindowMenuFactory implements MenuFactory {
 
 		JMenuItem item;
 
+        if (frame != null) {
 		item = new JMenuItem(frame.getZoomWindowAction());
 		menu.add(item);
 
-		item = new JMenuItem(frame.getMinimizeWindowAction());
-		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, MenuBarFactory.MENU_MASK));
-		menu.add(item);
+            item = new JMenuItem(frame.getMinimizeWindowAction());
+            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, MenuBarFactory.MENU_MASK));
+            menu.add(item);
+        } else {
+            item = new JMenuItem("Zoom Window");
+            item.setEnabled(false);
+            menu.add(item);
+
+            item = new JMenuItem("Minimize Window");
+            item.setEnabled(false);
+            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, MenuBarFactory.MENU_MASK));
+            menu.add(item);
+        }
 
 	}
 
