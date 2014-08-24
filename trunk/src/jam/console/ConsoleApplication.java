@@ -26,9 +26,17 @@ public class ConsoleApplication extends Application {
         this(new ConsoleMenuBarFactory(), nameString, aboutString, icon, dontAskSave);
     }
 
-    public ConsoleApplication(MenuBarFactory menuBarFactory, String nameString, String aboutString, Icon icon, boolean dontAskSave) throws IOException {
+    public ConsoleApplication(String nameString, String titleString, String aboutString, Icon icon, boolean dontAskSave) throws IOException {
+        this(new ConsoleMenuBarFactory(), nameString, titleString, aboutString, icon, dontAskSave);
+    }
 
-		super(menuBarFactory, nameString, aboutString, icon);
+    public ConsoleApplication(MenuBarFactory menuBarFactory, String nameString, String aboutString, Icon icon, boolean dontAskSave) throws IOException {
+        this(menuBarFactory, nameString, nameString, aboutString, icon, dontAskSave);
+    }
+
+    public ConsoleApplication(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Icon icon, boolean dontAskSave) throws IOException {
+
+		super(menuBarFactory, nameString, titleString, aboutString, icon);
 
         this.dontAskSave = dontAskSave;
 
