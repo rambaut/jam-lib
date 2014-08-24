@@ -42,6 +42,8 @@ public class ConsoleApplication extends Application {
 				thisWindowClosing(e);
 			}
 		});
+
+        getOpenAction().setEnabled(false);
 	}
 
     public void initialize() {

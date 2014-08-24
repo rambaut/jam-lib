@@ -72,6 +72,11 @@ public class ConsoleFrame extends DocumentFrame {
 		// Create reader threads
 		new ReaderThread(piOut).start();
 		new ReaderThread(piErr).start();
+
+        getCutAction().setEnabled(false);
+        getPasteAction().setEnabled(false);
+        getDeleteAction().setEnabled(false);
+        getFindAction().setEnabled(false);
 	}
 
 	protected boolean readFromFile(File file) throws FileNotFoundException, IOException {
