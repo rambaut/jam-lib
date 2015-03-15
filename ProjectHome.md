@@ -1,0 +1,1 @@
+JAM provides classes for building desktop applications that look and behave like native applications. In particular it is useful for creating Mac OS X applications as users have strong expectations of how these will behave. However, applications created using JAM will also look native on Windows and Linux/UNIX machines.
