@@ -8,6 +8,7 @@
     <property name="src" location="src"/>
     <property name="build" location="build"/>
     <property name="build-mac-only" location="build-mac-only"/>
+    <property name="build-java9-only" location="build-java9-only"/>
 
     <property name="lib" location="lib"/>
     <property name="dist" location="dist"/>
@@ -19,6 +20,7 @@
         <tstamp/>
         <!-- Create the build directory structure used by compile -->
         <mkdir dir="${build}"/>
+        <mkdir dir="${build-java9-only}"/>
         <mkdir dir="${build-mac-only}"/>
         <mkdir dir="${dist}"/>
     </target>
@@ -29,9 +31,10 @@
         <condition property="isMac">
             <os family="mac"/>
         </condition>
-        <javac source="1.5" target="1.5" srcdir="${src}" destdir="${build}">
+        <javac source="1.6" target="1.6" srcdir="${src}" destdir="${build}">
             <include name="jam/**/*"/>
             <exclude name="jam/**/maconly/*"/>
+            <exclude name="jam/**/java9only/*"/>
             <!--<exclude name="org/**/maconly/*" unless = "isMac"/>-->
         </javac>
         <copy todir="${build}" verbose="true">
@@ -39,12 +42,32 @@
         </copy>
     </target>
 
+    <target name="compile-java9-only" depends="init">
+        <!-- Compile the java code from ${jamsrc} into ${build} -->
+        <condition property="isMac">
+            <os family="mac"/>
+        </condition>
+        <javac source="1.9" target="1.9" srcdir="${src}" destdir="${build-java9-only}">
+            <include name="jam/**/java9only/*"/>
+        </javac>
+    </target>
+
+    <target name="dist-java9-only" depends="compile-java9-only" description="generate the -java9-only distribution">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}"/>
+
+        <!-- create the mac-only jar file -->
+        <jar jarfile="${lib}/jam-java9-only.jar">
+            <fileset dir="${build-java9-only}" includes="**/mac*/**/*.class,*.properties"/>
+        </jar>
+    </target>
+
     <target name="compile-mac-only" depends="init">
         <!-- Compile the java code from ${jamsrc} into ${build} -->
         <condition property="isMac">
             <os family="mac"/>
         </condition>
-        <javac source="1.5" target="1.5" srcdir="${src}" destdir="${build-mac-only}">
+        <javac source="1.6" target="1.6" srcdir="${src}" destdir="${build-mac-only}">
             <include name="jam/**/maconly/*"/>
         </javac>
     </target>
@@ -59,8 +82,10 @@
         </jar>
     </target>
 
+    <!-- jam-mac-only.jar should be compiled using Java 6 and then is linked in here -->
+    <!-- jam-java9-only.jar should be compiled using Java 9 and then is linked in here -->
 
-    <target name="dist" depends="compile" description="generate the distribution">
+    <target name="dist" depends="compile, dist-java9-only, dist-mac-only" description="generate the distribution">
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}"/>
         <delete file="${dist}/jam.jar"/>
@@ -68,6 +93,7 @@
         <jar jarfile="${dist}/jam.jar">
             <fileset dir="${build}" includes="**/*.class,**/*.properties,**/*.png"/>
             <zipgroupfileset dir="${lib}" includes="jam-mac-only.jar"/>
+            <zipgroupfileset dir="${lib}" includes="jam-java9-only.jar"/>
         </jar>
     </target>
 

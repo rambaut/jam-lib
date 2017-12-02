@@ -14,7 +14,6 @@
 package jam.framework;
 
 import jam.mac.Utils;
-import jam.maconly.OSXAdapter;
 
 import javax.swing.*;
 import java.io.File;
@@ -35,7 +34,7 @@ public class MultiDocApplication extends Application {
 	}
 
 	public MultiDocApplication(String nameString, String aboutString, Icon icon,
-	                           String websiteURLString, String helpURLString) {
+							   String websiteURLString, String helpURLString) {
 
 		super(new MultiDocMenuBarFactory(), nameString, aboutString, icon, websiteURLString, helpURLString);
 	}
@@ -46,27 +45,23 @@ public class MultiDocApplication extends Application {
 	}
 
 	public MultiDocApplication(MenuBarFactory menuBarFactory, String nameString, String aboutString, Icon icon,
-	                           String websiteURLString, String helpURLString) {
+							   String websiteURLString, String helpURLString) {
 
 		super(menuBarFactory, nameString, aboutString, icon, websiteURLString, helpURLString);
 	}
 
-    public MultiDocApplication(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Icon icon,
-                               String websiteURLString, String helpURLString) {
+	public MultiDocApplication(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Icon icon,
+							   String websiteURLString, String helpURLString) {
 
-        super(menuBarFactory, nameString, titleString, aboutString, icon, websiteURLString, helpURLString);
-    }
+		super(menuBarFactory, nameString, titleString, aboutString, icon, websiteURLString, helpURLString);
+	}
 
 	public final void initialize() {
-        // The frameless default menubar is now handled by the OSXAdapter
-		// setupFramelessMenuBar();
-
-        if (jam.mac.Utils.isMacOSX()) {
-            // If this is a Mac application then register it at this point.
-            // This will result in any events such as open file being executed
-            // due to files being double-clicked or dragged on to the application.
-            jam.mac.Utils.macOSXRegistration(this);
-        }
+		// Register the application with the OK. Prior to Java 1.9 this was just
+		// for Mac OS X. Now it uses java.desktop.Desktop to be cross platform
+		// This will result in any events such as open file being executed
+		// due to files being double-clicked or dragged on to the application.
+		jam.mac.Utils.registerDesktopApplication(this);
 	}
 
 	public void setDocumentFrameFactory(DocumentFrameFactory documentFrameFactory) {
@@ -132,21 +127,21 @@ public class MultiDocApplication extends Application {
 		}
 	}
 
-    public DocumentFrame getUpperDocumentFrame() {
-        return upperDocumentFrame;
-    }
+	public DocumentFrame getUpperDocumentFrame() {
+		return upperDocumentFrame;
+	}
 
-    public DocumentFrame getDocumentFrame(File file) {
-        if (documents != null && documents.size() > 0) {
-            for (DocumentFrame doc : documents) {
-                if (doc != null && doc.getFile() == file) {
-                    return doc;
-                }
-            }
-        }
+	public DocumentFrame getDocumentFrame(File file) {
+		if (documents != null && documents.size() > 0) {
+			for (DocumentFrame doc : documents) {
+				if (doc != null && doc.getFile() == file) {
+					return doc;
+				}
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
 	private void documentFrameActivated(DocumentFrame documentFrame) {
 		upperDocumentFrame = documentFrame;
@@ -191,16 +186,16 @@ public class MultiDocApplication extends Application {
 		upperDocumentFrame = documentFrame;
 	}
 
-    /**
-     * Create an invisible dummy frame to host the default menu bar expected by the Mac OS X application
-     * This is now done in the OSXAdapter so this method is deprecated.
-     */
-    @Deprecated
+	/**
+	 * Create an invisible dummy frame to host the default menu bar expected by the Mac OS X application
+	 * This is now done in the OSXAdapter so this method is deprecated.
+	 */
+	@Deprecated
 	private void setupFramelessMenuBar() {
 		if (Utils.isMacOSX() &&
-                System.getProperty("apple.laf.useScreenMenuBar") != null &&
+				System.getProperty("apple.laf.useScreenMenuBar") != null &&
 				System.getProperty("apple.laf.useScreenMenuBar").equalsIgnoreCase("true")) {
-            if (invisibleFrame == null) {
+			if (invisibleFrame == null) {
 				// We use reflection here because the setUndecorated() method
 				// only exists in Java 1.4 and up
 				invisibleFrame = new AbstractFrame() {

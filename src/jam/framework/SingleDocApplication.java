@@ -26,7 +26,7 @@ public class SingleDocApplication extends Application {
     }
 
     public SingleDocApplication(String nameString, String aboutString, Icon icon,
-    							String websiteURLString, String helpURLString) {
+                                String websiteURLString, String helpURLString) {
 
         super(new SingleDocMenuBarFactory(), nameString, aboutString, icon, websiteURLString, helpURLString);
     }
@@ -37,19 +37,18 @@ public class SingleDocApplication extends Application {
     }
 
     public SingleDocApplication(MenuBarFactory menuBarFactory, String nameString, String aboutString, Icon icon,
-    							String websiteURLString, String helpURLString) {
+                                String websiteURLString, String helpURLString) {
 
         super(menuBarFactory, nameString, aboutString, icon, websiteURLString, helpURLString);
     }
 
-	public final void initialize() {
-        if (jam.mac.Utils.isMacOSX()) {
-            // If this is a Mac application then register it at this point.
-            // This will result in any events such as open file being executed
-            // due to files being double-clicked or dragged on to the application.
-            jam.mac.Utils.macOSXRegistration(this);
-        }
-	}
+    public final void initialize() {
+        // Register the application with the OK. Prior to Java 1.9 this was just
+        // for Mac OS X. Now it uses java.desktop.Desktop to be cross platform
+        // This will result in any events such as open file being executed
+        // due to files being double-clicked or dragged on to the application.
+        jam.mac.Utils.registerDesktopApplication(this);
+    }
 
     public void setDocumentFrame(DocumentFrame documentFrame) {
 
@@ -66,9 +65,9 @@ public class SingleDocApplication extends Application {
         });
     }
 
-	protected JFrame getDefaultFrame() { return documentFrame; }
+    protected JFrame getDefaultFrame() { return documentFrame; }
 
-	protected String getDocumentExtension() { return ""; }
+    protected String getDocumentExtension() { return ""; }
 
     public DocumentFrame doNew() {
         throw new RuntimeException("A SingleDocApplication cannot do a New command");
