@@ -40,6 +40,8 @@ public class Utils {
 
         try {
             adapter = Class.forName("jam.java9only.ApplicationAdapter");
+        } catch(UnsupportedClassVersionError e) {
+            // probably not Java 9 then...
         } catch (Exception e) {
             // do nothing...
         }
