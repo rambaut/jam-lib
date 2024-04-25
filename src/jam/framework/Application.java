@@ -37,6 +37,8 @@ public abstract class Application {
     private static String nameString;
     private static String titleString;
     private static String aboutString;
+    private static Color aboutBackground;
+    private static Color aboutForeground;
     private static String websiteURLString;
     private static String helpURLString;
 
@@ -70,6 +72,14 @@ public abstract class Application {
         return aboutString;
     }
 
+    public static Color getAboutBackground() {
+        return aboutBackground;
+    }
+
+    public static Color getAboutForeground() {
+        return aboutForeground;
+    }
+
     public static String getWebsiteURLString() {
         return websiteURLString;
     }
@@ -93,11 +103,19 @@ public abstract class Application {
 
     public Application(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Icon icon,
                        String websiteURLString, String helpURLString) {
+        this(menuBarFactory, nameString, titleString, aboutString, null, null, icon, websiteURLString, helpURLString);
+    }
+
+    public Application(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString,
+                       Color aboutBackground, Color aboutForeground, Icon icon,
+                       String websiteURLString, String helpURLString) {
 
         Application.menuBarFactory = menuBarFactory;
         Application.nameString = nameString;
         Application.titleString = titleString;
         Application.aboutString = aboutString;
+        Application.aboutBackground = aboutBackground;
+        Application.aboutForeground = aboutForeground;
         Application.websiteURLString = websiteURLString;
         Application.helpURLString = helpURLString;
         Application.icon = icon;
@@ -172,7 +190,7 @@ public abstract class Application {
     protected abstract JFrame getDefaultFrame();
 
     public void doAbout() {
-        AboutBox aboutBox = new AboutBox(getTitleString(), getAboutString(), getIcon());
+        AboutBox aboutBox = new AboutBox(getTitleString(), getAboutString(), getIcon(), getAboutBackground(), getAboutForeground());
         //aboutBox.initialize();        //causes about frame to have the menu system from the main frame.
         aboutBox.setVisible(true);
     }

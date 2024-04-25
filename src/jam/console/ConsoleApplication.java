@@ -14,6 +14,7 @@ import jam.framework.MenuBarFactory;
 import jam.framework.DocumentFrame;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -27,16 +28,21 @@ public class ConsoleApplication extends Application {
 	}
 
 	public ConsoleApplication(String nameString, String titleString, String aboutString, Icon icon, boolean dontAskSave) throws IOException {
-		this(new ConsoleMenuBarFactory(), nameString, titleString, aboutString, icon, dontAskSave);
+		this(new ConsoleMenuBarFactory(), nameString, titleString, aboutString, null, null, icon, dontAskSave);
+	}
+
+	public ConsoleApplication(String nameString, String titleString, String aboutString, Color aboutBackground, Color aboutForeground, Icon icon, boolean dontAskSave) throws IOException {
+		this(new ConsoleMenuBarFactory(), nameString, titleString, aboutString, aboutBackground, aboutForeground, icon, dontAskSave);
 	}
 
 	public ConsoleApplication(MenuBarFactory menuBarFactory, String nameString, String aboutString, Icon icon, boolean dontAskSave) throws IOException {
-		this(menuBarFactory, nameString, nameString, aboutString, icon, dontAskSave);
+		this(menuBarFactory, nameString, nameString, aboutString, null, null, icon, dontAskSave);
 	}
 
-	public ConsoleApplication(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Icon icon, boolean dontAskSave) throws IOException {
+	public ConsoleApplication(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Color aboutBackground, Color aboutForeground,
+							  Icon icon, boolean dontAskSave) throws IOException {
 
-		super(menuBarFactory, nameString, titleString, aboutString, icon);
+		super(menuBarFactory, nameString, titleString, aboutString, aboutBackground, aboutForeground, icon, null, null);
 
 		this.dontAskSave = dontAskSave;
 

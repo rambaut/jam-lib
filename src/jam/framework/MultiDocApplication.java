@@ -16,6 +16,7 @@ package jam.framework;
 import jam.mac.Utils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -54,6 +55,10 @@ public class MultiDocApplication extends Application {
 							   String websiteURLString, String helpURLString) {
 
 		super(menuBarFactory, nameString, titleString, aboutString, icon, websiteURLString, helpURLString);
+	}
+
+	public MultiDocApplication(MenuBarFactory menuBarFactory, String nameString, String titleString, String aboutString, Color aboutBackground, Color aboutForeground, Icon icon, String websiteURLString, String helpURLString) {
+		super(menuBarFactory, nameString, titleString, aboutString, aboutBackground, aboutForeground, icon, websiteURLString, helpURLString);
 	}
 
 	public final void initialize() {

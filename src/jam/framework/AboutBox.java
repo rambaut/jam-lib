@@ -25,6 +25,14 @@ public class AboutBox extends AbstractFrame {
      * and centers it over the parent component.
      */
     public AboutBox(String title, String message, Icon icon) {
+        this(title, message, icon, null,null);
+    }
+
+    /**
+     * Creates an AboutBox with a given title, message and icon
+     * and centers it over the parent component.
+     */
+    public AboutBox(String title, String message, Icon icon, Color background, Color foreground) {
         super();
 
         if (icon != null) {
@@ -48,14 +56,16 @@ public class AboutBox extends AbstractFrame {
 
         JPanel contentsPanel = new JPanel(new GridBagLayout());
         contentsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        contentsPanel.setBackground(Color.white);
+        contentsPanel.setBackground(background != null ? background : Color.white);
+        contentsPanel.setForeground(foreground != null ? foreground : Color.black);
 
 //        JLabel iconLabel = new JLabel(icon, JLabel.CENTER);
         JLabel titleLabel = new JLabel(title, JLabel.CENTER);
 
         Font font = titleLabel.getFont();
         titleLabel.setFont(font.deriveFont(32.0f).deriveFont(Font.PLAIN));
-        titleLabel.setIcon(icon);
+        titleLabel.setForeground(foreground);
+        titleLabel.setIcon(IconUtils.resize(icon, 96, 96));
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridwidth = GridBagConstraints.REMAINDER;
