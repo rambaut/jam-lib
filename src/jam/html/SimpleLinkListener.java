@@ -34,7 +34,8 @@ public class SimpleLinkListener implements HyperlinkListener {
 
         if (he.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
             try{
-                BrowserLauncher.openURL(he.getDescription());
+//                BrowserLauncher.openURL(he.getDescription());
+                java.awt.Desktop.getDesktop().browse(java.net.URI.create(he.getDescription()));
             }catch(Exception ioe){
                 ioe.printStackTrace();
             }
